@@ -28,8 +28,11 @@ auth.post(
       throw new HTTPException(404, { message: "Invalid user" });
     }
 
-    const payload = { ...user, exp: Math.floor(Date.now() / 1000) + 60 * 5 }; // 5 minutes
-    const token = await sign(payload, "secret_key");
+    const payload = {
+      ...user,
+      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3,
+    }; // 30 days
+    const token = await sign(payload, "secret");
 
     return c.json({ accessToken: token });
   }
