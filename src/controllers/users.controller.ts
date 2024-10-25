@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import prisma from "../lib/prisma";
 import { HTTPException } from "hono/http-exception";
 import { jwt } from "hono/jwt";
+import organization from "./organization.controller";
 
 const users = new Hono();
 
@@ -16,6 +17,7 @@ const response = {
     email: true,
     role: true,
     createdAt: true,
+    organization: true
   },
 };
 
