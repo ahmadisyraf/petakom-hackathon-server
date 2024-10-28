@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import prisma from "../lib/prisma";
 import { HTTPException } from "hono/http-exception";
 import { jwt } from "hono/jwt";
-import donation from "./donation.controller";
 
 const users = new Hono();
 

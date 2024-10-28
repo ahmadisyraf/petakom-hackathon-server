@@ -6,31 +6,21 @@ import prisma from "../lib/prisma";
 
 const donation = new Hono();
 
-donation.get(
-  "/",
-  jwt({ secret: "secret" }),
-  zValidator(
-    "query",
-    z.object({
-      status: z.enum(["completed", "pending", "reserved"]).optional(),
-    })
-  ),
-  async (c) => {
-    const { id } = c.get("jwtPayload");
-    const { status } = c.req.valid("query");
+donation.get("/", jwt({ secret: "secret" }), async (c) => {
+  const { id } = c.get("jwtPayload");
+  const status = c.req.query("status");
 
-    const getUserDonation = await prisma.donation.findMany({
-      where: {
-        AND: {
-          status,
-          user: { id },
-        },
+  const getUserDonation = await prisma.donation.findMany({
+    where: {
+      AND: {
+        status: status as "pending" | "reserved" | "completed",
+        user: { id },
       },
-    });
+    },
+  });
 
-    return c.json(getUserDonation);
-  }
-);
+  return c.json(getUserDonation);
+});
 
 donation.post(
   "/",
