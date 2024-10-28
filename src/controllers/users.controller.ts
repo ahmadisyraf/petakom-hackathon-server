@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import prisma from "../lib/prisma";
 import { HTTPException } from "hono/http-exception";
 import { jwt } from "hono/jwt";
-import organization from "./organization.controller";
+import donation from "./donation.controller";
 
 const users = new Hono();
 
@@ -17,7 +17,10 @@ const response = {
     email: true,
     role: true,
     createdAt: true,
-    organization: true
+    organization: true,
+    donation: true,
+    userAddress: true,
+    userContact: true
   },
 };
 
@@ -57,18 +60,12 @@ users.get("/", async (c) => {
   return c.json(users);
 });
 
-users.get("/", jwt({ secret: "secret" }), async (c) => {
+users.get("/current-user", jwt({ secret: "secret" }), async (c) => {
   const { id } = c.get("jwtPayload");
 
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findUnique({
     where: { id },
-    include: {
-      ...response,
-      donation: true,
-      organization: true,
-      userAddress: true,
-      userContact: true,
-    },
+    ...response,
   });
 
   if (!user) {
