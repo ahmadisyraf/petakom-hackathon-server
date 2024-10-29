@@ -7,6 +7,18 @@ import prisma from "../lib/prisma";
 const donation = new Hono();
 
 donation.get("/", jwt({ secret: "secret" }), async (c) => {
+  const status = c.req.query("status");
+
+  const getDonations = await prisma.donation.findMany({
+    where: {
+      status: status as "pending" | "reserved" | "completed",
+    },
+  });
+
+  return c.json(getDonations);
+});
+
+donation.get("/current-user", jwt({ secret: "secret" }), async (c) => {
   const { id } = c.get("jwtPayload");
   const status = c.req.query("status");
 
