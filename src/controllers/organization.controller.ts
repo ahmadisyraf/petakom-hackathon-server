@@ -49,6 +49,17 @@ organization.post(
       },
     });
 
+    if (createdOrganization) {
+      await prisma.user.update({
+        data: {
+          role: "organization",
+        },
+        where: {
+          id,
+        },
+      });
+    }
+
     return c.json(createdOrganization);
   }
 );
