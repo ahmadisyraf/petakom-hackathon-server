@@ -2,7 +2,7 @@
   "name": "server",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "prisma generate && prisma migrate deploy"
+    "build": "prisma generate"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",
