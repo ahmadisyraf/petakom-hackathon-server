@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -23,7 +23,7 @@ model User {
   id             String        @id @default(uuid())
   firstName      String
   lastName       String
-  email          String        @unique
+  email          String
   password       String
   role           Role          @default(user)
   createdAt      DateTime      @default(now())
@@ -37,7 +37,7 @@ model User {
 model UserAddress {
   id       String @id @default(uuid())
   user     User   @relation(fields: [userId], references: [id])
-  userId   String @unique
+  userId   String
   street   String
   city     String
   state    String
@@ -47,7 +47,7 @@ model UserAddress {
 model UserContact {
   id          String @id @default(uuid())
   user        User   @relation(fields: [userId], references: [id])
-  userId      String @unique
+  userId      String
   phoneNumber String
 }
 
@@ -65,7 +65,7 @@ enum TransportationMethod {
 model Donation {
   id                   String               @id @default(uuid())
   user                 User                 @relation(fields: [userId], references: [id])
-  userId               String               
+  userId               String
   title                String
   description          String
   foodType             String
@@ -90,7 +90,7 @@ model Organization {
 model OrganizationAddress {
   id             String       @id @default(uuid())
   organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String       @unique
+  organizationId String
   street         String
   city           String
   state          String
@@ -100,7 +100,7 @@ model OrganizationAddress {
 model OrganizationContact {
   id             String       @id @default(uuid())
   organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String       @unique
+  organizationId String
   phoneNumber    String
 }
 
@@ -113,9 +113,9 @@ enum ReservationStatus {
 model Reservation {
   id             String       @id @default(uuid())
   donation       Donation     @relation(fields: [donationId], references: [id])
-  donationId     String       @unique
+  donationId     String
   organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String       @unique
+  organizationId String
   status         String
   createdAt      DateTime     @default(now())
 }

@@ -8,17 +8,17 @@ import { HTTPException } from "hono/http-exception";
 const reservation = new Hono();
 
 reservation.post(
-  "/:reservationId",
+  "/:donationId",
   jwt({ secret: "secret" }),
   zValidator(
     "param",
     z.object({
-      reservationId: z.string({ required_error: "Reservation id required" }),
+      donationId: z.string({ required_error: "Reservation id required" }),
     })
   ),
   async (c) => {
     const { id } = c.get("jwtPayload");
-    const { reservationId } = c.req.valid("param");
+    const { donationId } = c.req.valid("param");
 
     const userInformation = await prisma.user.findFirst({
       where: {
@@ -43,7 +43,7 @@ reservation.post(
         },
         donation: {
           connect: {
-            id: reservationId,
+            id: donationId,
           },
         },
         status: "pending",
