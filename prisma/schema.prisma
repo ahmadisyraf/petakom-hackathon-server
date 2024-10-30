@@ -23,7 +23,7 @@ model User {
   id             String        @id @default(uuid())
   firstName      String
   lastName       String
-  email          String
+  email          String        @unique
   password       String
   role           Role          @default(user)
   createdAt      DateTime      @default(now())
@@ -111,11 +111,11 @@ enum ReservationStatus {
 }
 
 model Reservation {
-  id             String       @id @default(uuid())
-  donation       Donation     @relation(fields: [donationId], references: [id])
+  id             String            @id @default(uuid())
+  donation       Donation          @relation(fields: [donationId], references: [id])
   donationId     String
-  organization   Organization @relation(fields: [organizationId], references: [id])
+  organization   Organization      @relation(fields: [organizationId], references: [id])
   organizationId String
   status         ReservationStatus @default(reserved)
-  createdAt      DateTime     @default(now())
+  createdAt      DateTime          @default(now())
 }

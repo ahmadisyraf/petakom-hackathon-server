@@ -19,7 +19,7 @@ const response = {
     organization: true,
     donation: true,
     userAddress: true,
-    userContact: true
+    userContact: true,
   },
 };
 
@@ -180,11 +180,11 @@ users.patch(
     const data = c.req.valid("json");
 
     const updateAddress = await prisma.userAddress.update({
+      where: {
+        id,
+      },
       data: {
         ...data,
-      },
-      where: {
-        userId: id,
       },
     });
 
@@ -241,11 +241,11 @@ users.patch(
     const data = c.req.valid("json");
 
     const updatedContact = await prisma.userContact.update({
+      where: {
+        id,
+      },
       data: {
         ...data,
-      },
-      where: {
-        userId: id,
       },
     });
 

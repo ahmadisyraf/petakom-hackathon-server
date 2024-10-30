@@ -46,7 +46,7 @@ reservation.post(
             id: userInformation.organizationId,
           },
         },
-        status: "pending",
+        status: "reserved",
       },
     });
 
@@ -66,7 +66,7 @@ reservation.patch(
   zValidator(
     "json",
     z.object({
-      status: z.enum(["pending", "completed", "cancelled"]),
+      status: z.enum(["reserved", "completed", "cancelled"]),
     })
   ),
   async (c) => {
