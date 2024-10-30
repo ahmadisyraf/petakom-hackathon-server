@@ -86,4 +86,16 @@ reservation.patch(
   }
 );
 
+reservation.get("/", jwt({ secret: "secret" }), async (c) => {
+  const { id } = c.get("jwtPayload");
+
+  const findReservation = await prisma.reservation.findMany({
+    where: {
+      organizationId: id,
+    },
+  });
+
+  return c.json(findReservation);
+});
+
 export default reservation;
