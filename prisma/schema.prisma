@@ -105,7 +105,7 @@ model OrganizationContact {
 }
 
 enum ReservationStatus {
-  pending
+  reserved
   completed
   cancelled
 }
@@ -116,6 +116,6 @@ model Reservation {
   donationId     String
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
-  status         String
+  status         ReservationStatus @default(reserved)
   createdAt      DateTime     @default(now())
 }
