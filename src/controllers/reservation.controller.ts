@@ -88,6 +88,7 @@ reservation.patch(
 
 reservation.get("/", jwt({ secret: "secret" }), async (c) => {
   const { id } = c.get("jwtPayload");
+  //
 
   const user = await prisma.user.findFirst({
     where: {
