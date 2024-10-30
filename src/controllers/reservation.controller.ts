@@ -89,10 +89,24 @@ reservation.patch(
 reservation.get("/", jwt({ secret: "secret" }), async (c) => {
   const { id } = c.get("jwtPayload");
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id,
+    },
+  });
+
+  if (!user) {
+    throw new HTTPException(404, { message: "User not exist" });
+  }
+
+  if (!user.organizationId) {
+    throw new HTTPException(404, { message: "User not organization member" });
+  }
+
   //
   const findReservation = await prisma.reservation.findMany({
     where: {
-      organizationId: id,
+      organizationId: user.organizationId,
     },
   });
 
