@@ -4,6 +4,7 @@ import auth from "../controllers/auth.controller";
 import { logger } from "hono/logger";
 import organization from "../controllers/organization.controller";
 import donation from "../controllers/donation.controller";
+import reservation from "../controllers/reservation.controller";
 
 const app = new Hono();
 
@@ -13,6 +14,7 @@ app.route("/users", users);
 app.route("/auth", auth);
 app.route("/organization", organization);
 app.route("/donation", donation);
+app.route("/reservation", reservation);
 
 app.notFound((c) => {
   return c.text("Route not found", 404);
