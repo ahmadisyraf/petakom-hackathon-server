@@ -109,6 +109,9 @@ reservation.get("/", jwt({ secret: "secret" }), async (c) => {
     where: {
       organizationId: user.organizationId,
     },
+    include: {
+      donation: true,
+    },
   });
 
   return c.json(findReservation);
