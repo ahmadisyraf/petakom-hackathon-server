@@ -36,14 +36,14 @@ reservation.post(
 
     const reserveDonation = await prisma.reservation.create({
       data: {
-        organization: {
-          connect: {
-            id: userInformation.organizationId,
-          },
-        },
         donation: {
           connect: {
             id: donationId,
+          },
+        },
+        organization: {
+          connect: {
+            id: userInformation.organizationId,
           },
         },
         status: "pending",
